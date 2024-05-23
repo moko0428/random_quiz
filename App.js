@@ -9,11 +9,17 @@ import {
   TouchableOpacity,
   View,
   Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform, // KeyboardAvoidingView import 추가
 } from 'react-native';
 import { ImageList } from './src/data/imageList';
 import Margin from './src/components/Margin';
+import { mapleFont } from './src/utils/fonts';
 
-const { width } = Dimensions.get('window');
+const size = 80;
+const { width, height } = Dimensions.get('window'); // height 추가
 
 const getRandomImage = (usedImages) => {
   const availableImages = ImageList.filter(
@@ -101,7 +107,7 @@ const App = () => {
     setCurrentImage(getRandomImage(usedImages));
     Alert.alert(
       '게임 종료',
-      `이전에 맞춘 갯수: ${previousCorrectCount}\n가장 많이 맞춘 갯수: ${maxCorrectCount}\n총 경과 시간: ${elapsedTime}초\n이번 판 맞춘 갯수: ${correctCount}`
+      `정답은: ${currentImage.answer}!\n이전에 맞춘 갯수: ${previousCorrectCount}\n가장 많이 맞춘 갯수: ${maxCorrectCount}\n총 경과 시간: ${elapsedTime}초\n이번 판 맞춘 갯수: ${correctCount}`
     );
   }, [
     correctCount,
@@ -113,59 +119,80 @@ const App = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>랜덤 인물 맞추기 게임!</Text>
-        <Text style={[styles.headerText, { color: 'pink' }]}>400일 축하!</Text>
-      </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : null} // iOS에서 키보드가 나타날 때 높이만큼 화면을 자동으로 스크롤
+        keyboardVerticalOffset={Platform.OS === 'ios' ? height * 0.1 : 0} // iOS에서는 키보드가 나타날 때 화면이 조금 올라가도록 설정
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <Margin height={12} />
+            <Text style={[styles.headerText, mapleFont]}>
+              랜덤 인물 맞추기 게임!
+            </Text>
 
-      <View style={styles.imageContainer}>
-        {showImage && (
-          <Image source={currentImage.image} style={styles.image} />
-        )}
-      </View>
+            <View style={styles.imageContainer}>
+              {showImage && (
+                <Image source={currentImage.image} style={styles.image} />
+              )}
+            </View>
 
-      <View style={styles.inputContainer}>
-        {!start ? (
-          <TouchableOpacity
-            onPress={gameStartButton}
-            style={styles.buttonContainer}
-          >
-            <Text style={styles.buttonText}>게임 시작</Text>
-          </TouchableOpacity>
-        ) : (
-          <>
-            <Text style={styles.timerText}>남은 시간: {timer}초</Text>
-            <Margin height={8} />
-            <TextInput
-              ref={inputRef}
-              style={styles.input}
-              value={userInput}
-              onChangeText={setUserInput}
-              placeholder="정답을 입력하세요"
-            />
-            <Margin height={8} />
-            <TouchableOpacity onPress={changeImage} style={styles.submitBtn}>
-              <Text>정답 입력</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </View>
+            <View style={[styles.inputContainer]}>
+              {!start ? (
+                <TouchableOpacity
+                  onPress={gameStartButton}
+                  style={styles.buttonContainer}
+                >
+                  <Text style={[styles.buttonText, mapleFont]}>게임 시작</Text>
+                </TouchableOpacity>
+              ) : (
+                <>
+                  <Text style={[styles.timerText, mapleFont]}>
+                    남은 시간: {timer}초
+                  </Text>
+                  <Margin height={8} />
+                  <TextInput
+                    ref={inputRef}
+                    style={styles.input}
+                    value={userInput}
+                    onChangeText={setUserInput}
+                    placeholder="정답을 입력하세요"
+                    blurOnSubmit={false} // 키보드가 사라지지 않도록 설정
+                    onSubmitEditing={changeImage} // 엔터 키를 눌렀을 때 이미지 변경 함수 호출
+                    autoCapitalize="none"
+                    autoComplete={false}
+                  />
+                  <Margin height={8} />
+                  <TouchableOpacity
+                    onPress={changeImage}
+                    style={styles.submitBtn}
+                  >
+                    <Text style={mapleFont}>정답 입력</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
 
-      {start && (
-        <TouchableOpacity onPress={endGame} style={styles.submitBtn}>
-          <Text>게임 종료</Text>
-        </TouchableOpacity>
-      )}
+            {start && (
+              <TouchableOpacity onPress={endGame} style={styles.submitBtn}>
+                <Text style={mapleFont}>게임 종료</Text>
+              </TouchableOpacity>
+            )}
 
-      <View style={styles.statsContainer}>
-        <Text style={styles.statsText}>총 경과 시간: {elapsedTime}초</Text>
-        <Text style={styles.statsText}>
-          이전에 맞춘 갯수: {previousCorrectCount}
-        </Text>
-        <Text style={styles.statsText}>
-          가장 많이 맞춘 갯수: {maxCorrectCount}
-        </Text>
-      </View>
+            <View style={styles.statsContainer}>
+              <Text style={[styles.statsText, mapleFont]}>
+                총 경과 시간: {elapsedTime} 초
+              </Text>
+              <Text style={[styles.statsText, mapleFont]}>
+                이전에 맞춘 갯수: {previousCorrectCount} 개
+              </Text>
+              <Text style={[styles.statsText, mapleFont]}>
+                가장 많이 맞춘 갯수: {maxCorrectCount} 개
+              </Text>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -173,7 +200,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFEDFF',
     alignItems: 'center',
     paddingHorizontal: 15,
   },
@@ -189,10 +216,11 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
   image: {
-    width: width - 30,
-    height: width - 30,
+    width: width - size,
+    height: width - size,
     borderWidth: 1,
     resizeMode: 'contain',
+    backgroundColor: '#fff',
   },
   inputContainer: {
     marginVertical: 8,
@@ -201,36 +229,41 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   buttonContainer: {
-    width: width - 30,
-    height: 50,
+    width: width - size,
+    height: width - size,
     borderWidth: 1,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 12,
     paddingVertical: 8,
+    backgroundColor: '#fff',
   },
   buttonText: {
     fontSize: 24,
   },
   input: {
-    width: width - 30,
+    width: width - size,
     height: 50,
     borderWidth: 1,
+    paddingHorizontal: 12,
+    backgroundColor: '#fff',
   },
   submitBtn: {
-    width: width - 30,
+    width: width - size,
     height: 50,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   statsContainer: {
     marginVertical: 8,
-    width: width - 30,
+    width: width - size,
     height: 150,
     justifyContent: 'center',
     alignItems: 'center',
+    gap: 8,
   },
   statsText: {
     fontSize: 20,

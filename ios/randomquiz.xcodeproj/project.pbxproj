@@ -14,6 +14,8 @@
 		96905EF65AED1B983A6B3ABC /* libPods-randomquiz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-randomquiz.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		3E53C0D4D1FD41AD9152DF6C /* Maplestory Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8782690DB56E498F88A841D8 /* Maplestory Light.ttf */; };
+		06C8E51210B549B7B85B4B1A /* Maplestory OTF Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4DDC7265FBE34AE9B644C2A9 /* Maplestory OTF Light.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-randomquiz/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		8782690DB56E498F88A841D8 /* Maplestory Light.ttf */ = {isa = PBXFileReference; name = "Maplestory Light.ttf"; path = "../src/assets/fonts/Maplestory Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4DDC7265FBE34AE9B644C2A9 /* Maplestory OTF Light.otf */ = {isa = PBXFileReference; name = "Maplestory OTF Light.otf"; path = "../src/assets/fonts/Maplestory OTF Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
+				7EA2F6F12D9D41BE84003532 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -130,6 +135,16 @@
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
+		};
+		7EA2F6F12D9D41BE84003532 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				8782690DB56E498F88A841D8 /* Maplestory Light.ttf */,
+				4DDC7265FBE34AE9B644C2A9 /* Maplestory OTF Light.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -195,6 +210,8 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
+				3E53C0D4D1FD41AD9152DF6C /* Maplestory Light.ttf in Resources */,
+				06C8E51210B549B7B85B4B1A /* Maplestory OTF Light.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
