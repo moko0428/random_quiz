@@ -12,14 +12,14 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
-  Platform, // KeyboardAvoidingView import 추가
+  Platform,
 } from 'react-native';
 import { ImageList } from './src/data/imageList';
 import Margin from './src/components/Margin';
 import { mapleFont } from './src/utils/fonts';
 
 const size = 80;
-const { width, height } = Dimensions.get('window'); // height 추가
+const { width, height } = Dimensions.get('window');
 
 const getRandomImage = (usedImages) => {
   const availableImages = ImageList.filter(
@@ -33,7 +33,7 @@ const App = () => {
   const [usedImages, setUsedImages] = useState([]);
   const [currentImage, setCurrentImage] = useState(getRandomImage(usedImages));
   const [userInput, setUserInput] = useState('');
-  const [start, setStart] = useState(false);
+  const [startGame, setStartGame] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [timer, setTimer] = useState(5);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -45,7 +45,7 @@ const App = () => {
 
   useEffect(() => {
     let intervalId;
-    if (start && timer > 0 && showImage) {
+    if (startGame && timer > 0 && showImage) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
         setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
@@ -55,13 +55,13 @@ const App = () => {
     }
 
     return () => clearInterval(intervalId);
-  }, [start, timer, showImage]);
+  }, [startGame, timer, showImage]);
 
   useEffect(() => {
-    if (start && inputRef.current) {
+    if (startGame && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [start]);
+  }, [startGame]);
 
   const changeImage = useCallback(() => {
     if (userInput.trim().toLowerCase() === currentImage.answer.toLowerCase()) {
@@ -75,7 +75,7 @@ const App = () => {
 
       setCurrentImage(getRandomImage(newUsedImages));
       setUserInput('');
-      setShowImage(true); // 이미지를 바로 표시
+      setShowImage(true);
       setTimer(5);
       setCorrectCount((prevCorrectCount) => prevCorrectCount + 1);
       setMaxCorrectCount((prevMaxCorrectCount) =>
@@ -91,7 +91,7 @@ const App = () => {
 
   const gameStartButton = useCallback(() => {
     setUsedImages([]);
-    setStart(true);
+    setStartGame(true);
     setShowImage(true);
     setTimer(5);
     setPreviousCorrectCount(correctCount);
@@ -99,7 +99,7 @@ const App = () => {
   }, [correctCount]);
 
   const endGame = useCallback(() => {
-    setStart(false);
+    setStartGame(false);
     setShowImage(false);
     setElapsedTime(0);
     setTimer(5);
@@ -121,16 +121,20 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : null} // iOS에서 키보드가 나타날 때 높이만큼 화면을 자동으로 스크롤
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? height * 0.1 : 0} // iOS에서는 키보드가 나타날 때 화면이 조금 올라가도록 설정
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <Margin height={12} />
-            <Text style={[styles.headerText, mapleFont]}>
-              랜덤 인물 맞추기 게임!
-            </Text>
-
+            <View style={{ alignItems: 'center' }}>
+              <Text style={[{ color: 'purple', fontSize: 16 }, mapleFont]}>
+                400일 기념 🩷
+              </Text>
+              <Text style={[styles.headerText, mapleFont]}>
+                랜덤 인물 맞추기 게임!
+              </Text>
+            </View>
             <View style={styles.imageContainer}>
               {showImage && (
                 <Image source={currentImage.image} style={styles.image} />
@@ -138,7 +142,7 @@ const App = () => {
             </View>
 
             <View style={[styles.inputContainer]}>
-              {!start ? (
+              {!startGame ? (
                 <TouchableOpacity
                   onPress={gameStartButton}
                   style={styles.buttonContainer}
@@ -173,7 +177,7 @@ const App = () => {
               )}
             </View>
 
-            {start && (
+            {startGame && (
               <TouchableOpacity onPress={endGame} style={styles.submitBtn}>
                 <Text style={mapleFont}>게임 종료</Text>
               </TouchableOpacity>
