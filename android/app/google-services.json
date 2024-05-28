@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "416414867358",
+    "project_id": "random-image-quiz",
+    "storage_bucket": "random-image-quiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416414867358:android:1f6379b34870891692408f",
+        "android_client_info": {
+          "package_name": "com.randomquiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7_qigsk52uXL-GLLNhkiKEHSceT3eDU8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
