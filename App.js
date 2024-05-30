@@ -116,7 +116,9 @@ const App = () => {
     previousCorrectCount,
     usedImages,
   ]);
-
+  const onPressKeyboardDismiss = () => {
+    Keyboard.dismiss();
+  };
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -124,13 +126,10 @@ const App = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? height * 0.1 : 0} // iOS에서는 키보드가 나타날 때 화면이 조금 올라가도록 설정
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback onPress={onPressKeyboardDismiss}>
           <View style={styles.container}>
             <Margin height={12} />
             <View style={{ alignItems: 'center' }}>
-              <Text style={[{ color: 'purple', fontSize: 16 }, mapleFont]}>
-                400일 기념 🩷
-              </Text>
               <Text style={[styles.headerText, mapleFont]}>
                 랜덤 인물 맞추기 게임!
               </Text>
